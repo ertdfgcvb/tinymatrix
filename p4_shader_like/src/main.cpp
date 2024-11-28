@@ -65,15 +65,30 @@ void setup() {
 
 void loop() {
 	display->clearScreen();
-
-	float now = frame * 0.2;
+	// adapted from https://www.shadertoy.com/view/XdX3Wn
+	float now = frame * 0.04;
+	float an= sin(now)/3.14157;
+	float as= sin(an);
+	float zoo = .23232+.38*sin(.7*now);
 
 	for (uint8_t y=0; y<TOTAL_HEIGHT; y++) {
 		for (uint8_t x=0; x<TOTAL_WIDTH; x++) {
+			
+			float px = x * 0.08 - 0.01;
+			float py = y * 0.08;
+			
+			float color = 0.0;
+			color += sin(px - py) ;
+			color += sin(now)* cos(sin(now)*py*px*sin(px))+.008;
+			color += sin(now)+px*sin(py*sin(sin(tan(cos (now)))));
+			
+			uint8_t r = 128.0 +	sin(color*color)*127.0*sin(now+px/(now*3.14));
+			uint8_t g =	128.0 +	sin(color*color)*127.0;
+			uint8_t b =	128.0 +	cos(color * 0.333 + 1.3)*128.0;
 
-			uint8_t r = 128.0 + (128.0 * sin((x / 4.0) - cos(now / 2) ));
-			uint8_t g = 128.0 + (128.0 * sin((y / 8.0) - sin(now) * 2 ));
-			uint8_t b = 128.0 + (128.0 * sin(sqrt((x - TOTAL_WIDTH / 2.0) * (x - TOTAL_WIDTH / 2.0) + (y - TOTAL_HEIGHT / 2.0) * (y - TOTAL_HEIGHT / 2.0)) / 4.0));
+			// uint8_t r = 128.0 + (128.0 * sin((x / 4.0) - cos(now / 2) ));
+			// uint8_t g = 128.0 + (128.0 * sin((y / 8.0) - sin(now) * 2 ));
+			// uint8_t b = 128.0 + (128.0 * sin(sqrt((x - TOTAL_WIDTH / 2.0) * (x - TOTAL_WIDTH / 2.0) + (y - TOTAL_HEIGHT / 2.0) * (y - TOTAL_HEIGHT / 2.0)) / 4.0));
 
 			display->drawPixelRGB888(x, y, r, g, b);
 		}
@@ -88,5 +103,5 @@ void loop() {
 	display->flipDMABuffer();
 	digitalWrite(PICO_LED_PIN, frame % 2);
 	frame++;
-	// delay(1);
+	delay(1);
 }
