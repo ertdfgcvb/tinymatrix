@@ -11,8 +11,6 @@
 #define TOTAL_WIDTH    64
 #define TOTAL_HEIGHT   32
 
-#define SERIAL_SPEED 460800 // 230400 115200
-
 #include "common/font/Font_apple5x7.h"
 #include "common/pico_driver_v5_pinout.h"
 #include "common/array_helpers.h"
@@ -73,15 +71,15 @@ void loop() {
 
 	for (uint8_t y=0; y<TOTAL_HEIGHT; y++) {
 		for (uint8_t x=0; x<TOTAL_WIDTH; x++) {
-			
+
 			float px = x * 0.08 - 0.01;
 			float py = y * 0.08;
-			
+
 			float color = 0.0;
 			color += sin(px - py) ;
 			color += sin(now)* cos(sin(now)*py*px*sin(px))+.008;
 			color += sin(now)+px*sin(py*sin(sin(tan(cos (now)))));
-			
+
 			uint8_t r = 128.0 +	sin(color*color)*127.0*sin(now+px/(now*3.14));
 			uint8_t g =	128.0 +	sin(color*color)*127.0;
 			uint8_t b =	128.0 +	cos(color * 0.333 + 1.3)*128.0;
@@ -94,14 +92,17 @@ void loop() {
 		}
 	}
 
+	// Info (frame counter)
 	char out[16] = "";
-
 	sprintf(out, "%s%d", "FRM:", frame);
-
 	drawString(display, 1, 1, FONT, BLACK, out);
 	drawString(display, 0, 0, FONT, WHITE, out);
+
 	display->flipDMABuffer();
+
 	digitalWrite(PICO_LED_PIN, frame % 2);
+
 	frame++;
+
 	delay(1);
 }
