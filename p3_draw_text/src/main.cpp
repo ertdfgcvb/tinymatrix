@@ -76,20 +76,30 @@ void loop() {
 	// 		// u_int8_t r = (sin((j + i + frame) * 0.29) + 1) * 128;
 	// 		// u_int8_t g = (sin((j + i + frame) * 0.31) + 1) * 128;
 	// 		// u_int8_t b = (sin((j + i + frame) * 0.43) + 1) * 128;
-	// 		// uint16_t col = MatrixPanel_I2S_DMA::color565(r, g, b);
+	// 		// uint16_t col = MatrixPanel_I2S_DMA::o565(r, g, b);
 	// 		drawString(display, FONT->Width * i, (FONT->Height + 1) * j, FONT, WHITE, s);
 	// 	}
 	// }
 
 	char str[64];
 
+	float now = frame * 0.015;
+	float sn = sin(now * 0.1);
 	for (uint8_t j=0; j<4; j++) {
-		int x = -(sin(j * 0.3 + frame * 0.004) + 1) * 64;
+
+		int x = -(sin(j * 0.3 + now) + 1) * 32;
 		for (uint8_t i = 0; i<64; i++) {
-			uint8_t offs = 0;
-			str[i] = 48 + (i + offs) % 64;
+			float px = i * 0.003;
+			float py = j * 0.06 + now * 0.1;
+
+			float o = 0;
+			o += sin(px - py);
+			o += sn * cos(sn * sin(px));
+			o += sn + px * sin(py);
+
+			str[i] = 48 + int(abs(o) * 32 ) % 64;
 		}
-		drawString(display, x, (FONT->Height + 1) * j, FONT, WHITE, str);
+		drawString(display, x, (FONT->Height + 1) * j, FONT, RED, str);
 	}
 
 	display->flipDMABuffer();
