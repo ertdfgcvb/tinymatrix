@@ -27,7 +27,6 @@ MatrixPanel_I2S_DMA *display = nullptr;
 
 uint32_t frame = 0;
 
-
 void setup() {
 
 	delay(1000);
@@ -63,7 +62,7 @@ void setup() {
 
 	// display->setBrightness(50); // caution, reduce brightness to avoid overload
 	// RGB_test(display);
-	display->setBrightness(253); // caution: use 254 as max valuer
+	display->setBrightness(253); // caution: use 253 as max valuer
 }
 
 
