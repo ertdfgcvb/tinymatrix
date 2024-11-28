@@ -39,24 +39,24 @@ void setup() {
   println(serial);
   
   img = loadImage("pcb.png");
-  img.resize(floor(img.width * 0.5), floor(img.height * 0.5));
+  // scale the image a bit
+  img.resize(floor(img.width * 0.66), floor(img.height * 0.66));
     
   frameRate(15);
 }
 
 void draw() {
 
-  // Draw some things
   background(0,0,0);
   
-  float ox = -map(sin(frameCount * 0.0063), -1, 1, 200, img.width - 200);
-  float oy = -map(sin(frameCount * 0.0074), -1, 1, 200, img.height - 200);
+  float ox = -map(sin(frameCount * 0.0063), -1, 1, TOTAL_WIDTH, img.width - TOTAL_WIDTH);
+  float oy = -map(sin(frameCount * 0.0074), -1, 1, TOTAL_HEIGHT, img.height - TOTAL_HEIGHT);
   
   image(img, ox, oy);
   
-
   // --------------------------------------------------------------------------
   // Write to the serial port (if open)
+  
   if (serial != null) {
     loadPixels();
     int idx = 0;
