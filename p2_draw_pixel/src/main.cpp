@@ -14,6 +14,8 @@
 MatrixPanel_I2S_DMA *display = nullptr;
 
 uint32_t frame = 0;
+uint32_t X_position = 0;
+uint32_t Y_position = 0;
 
 void setup() {
 
@@ -54,9 +56,13 @@ void setup() {
 
 void loop() {
 	display->clearScreen();
-	display->drawPixelRGB888(10, 10, 255, 0, 0);
+
+	display->drawPixelRGB888(X_position % 32, Y_position % 32, 255, 0, 0);
+	X_position ++;
+	Y_position++;
 	display->flipDMABuffer();
+	
 	digitalWrite(PICO_LED_PIN, frame % 2);
 	frame++;
-	delay(10);
+	delay(100);
 }

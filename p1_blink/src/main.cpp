@@ -9,5 +9,5 @@ void setup() {
 
 void loop() {
 	digitalWrite(PICO_LED_PIN, frame++ % 2);
-	delay(100);
+	delay(1000);
 }
