@@ -20,8 +20,6 @@
 #include "common/testcard.h"
 #include "common/serial_loop.h"
 
-SerialLoop sl;
-
 const bitmap_font *FONT = &apple5x7;
 MatrixPanel_I2S_DMA *display = nullptr;
 
@@ -62,12 +60,13 @@ void setup() {
 
 	// display->setBrightness(50); // caution, reduce brightness to avoid overload
 	// RGB_test(display);
-	display->setBrightness(253); // caution: use 253 as max valuer
+	display->setBrightness(253); // caution: use 253 as max value
 }
 
 
 void loop() {
 	display->clearScreen();
+
 	for (uint8_t j=0; j<4; j++) {
 		char s[2];
 		s[1] = '\0';
@@ -81,6 +80,7 @@ void loop() {
 			drawString(display, FONT->Width * i, (FONT->Height + 1) * j, FONT, col, s);
 		}
 	}
+
 	display->flipDMABuffer();
 	digitalWrite(PICO_LED_PIN, frame % 2);
 	frame++;
