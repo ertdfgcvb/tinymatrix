@@ -67,22 +67,29 @@ void setup() {
 void loop() {
 	display->clearScreen();
 
+	// for (uint8_t j=0; j<4; j++) {
+	// 	char s[2];
+	// 	s[1] = '\0';
+	// 	uint8_t offs = (sin(j * 0.2 + frame * 0.002) + 1) * 42;
+	// 	for (uint8_t i=0; i<14; i++) {
+	// 		s[0] = 48 + (i + offs) % 42;
+	// 		// u_int8_t r = (sin((j + i + frame) * 0.29) + 1) * 128;
+	// 		// u_int8_t g = (sin((j + i + frame) * 0.31) + 1) * 128;
+	// 		// u_int8_t b = (sin((j + i + frame) * 0.43) + 1) * 128;
+	// 		// uint16_t col = MatrixPanel_I2S_DMA::color565(r, g, b);
+	// 		drawString(display, FONT->Width * i, (FONT->Height + 1) * j, FONT, WHITE, s);
+	// 	}
+	// }
+
+	char str[] = "ABCDEFGHIJKLMONPQRSTUVWXYZ(){}[]+-*/0123456789";
+
 	for (uint8_t j=0; j<4; j++) {
-		char s[2];
-		s[1] = '\0';
-		uint8_t offs = (sin(j * 0.05 + frame * 0.01) + 1) * 32;
-		for (uint8_t i=0; i<14; i++) {
-			s[0] = 32 + (i + frame + offs) % 95;
-			u_int8_t r = (sin((j + i + frame) * 0.29) + 1) * 128;
-			u_int8_t g = (sin((j + i + frame) * 0.31) + 1) * 128;
-			u_int8_t b = (sin((j + i + frame) * 0.43) + 1) * 128;
-			uint16_t col = MatrixPanel_I2S_DMA::color565(r, g, b);
-			drawString(display, FONT->Width * i, (FONT->Height + 1) * j, FONT, col, s);
-		}
+		int x = -(sin(j * 0.3 + frame * 0.004) + 1) * 64;
+		drawString(display, x, (FONT->Height + 1) * j, FONT, WHITE, str);
 	}
 
 	display->flipDMABuffer();
 	digitalWrite(PICO_LED_PIN, frame % 2);
 	frame++;
-	delay(30);
+	// delay(5);
 }
