@@ -13,15 +13,16 @@
 
 #define SERIAL_SPEED 460800 // 230400 115200
 
+#include "common/font/Font_apple5x7.h"
 #include "common/pico_driver_v5_pinout.h"
 #include "common/array_helpers.h"
 #include "common/gfx_helpers.h"
 #include "common/testcard.h"
-#include "common/serial_loop.h"
 
+const bitmap_font *FONT = &apple5x7;
 MatrixPanel_I2S_DMA *display = nullptr;
 
-uint32_t frame = 0;
+int frame = 0;
 
 void setup() {
 
@@ -64,21 +65,28 @@ void setup() {
 
 void loop() {
 	display->clearScreen();
-	for (uint8_t j=0; j<4; j++) {
-		char s[2];
-		s[1] = '\0';
-		uint8_t offs = (sin(j * 0.05 + frame * 0.01) + 1) * 32;
-		for (uint8_t i=0; i<14; i++) {
-			s[0] = 32 + (i + frame + offs) % 95;
-			u_int8_t r = (sin((j + i + frame) * 0.29) + 1) * 128;
-			u_int8_t g = (sin((j + i + frame) * 0.31) + 1) * 128;
-			u_int8_t b = (sin((j + i + frame) * 0.43) + 1) * 128;
-			uint16_t col = MatrixPanel_I2S_DMA::color565(r, g, b);
-			drawString(display, FONT->Width * i, (FONT->Height + 1) * j, FONT, col, s);
+
+	float now = frame * 0.2;
+
+	for (uint8_t y=0; y<TOTAL_HEIGHT; y++) {
+		for (uint8_t x=0; x<TOTAL_WIDTH; x++) {
+
+			uint8_t r = 128.0 + (128.0 * sin((x / 4.0) - cos(now / 2) ));
+			uint8_t g = 128.0 + (128.0 * sin((y / 8.0) - sin(now) * 2 ));
+			uint8_t b = 128.0 + (128.0 * sin(sqrt((x - TOTAL_WIDTH / 2.0) * (x - TOTAL_WIDTH / 2.0) + (y - TOTAL_HEIGHT / 2.0) * (y - TOTAL_HEIGHT / 2.0)) / 4.0));
+
+			display->drawPixelRGB888(x, y, r, g, b);
 		}
 	}
+
+	char out[16] = "";
+
+	sprintf(out, "%s%d", "FRM:", frame);
+
+	drawString(display, 1, 1, FONT, BLACK, out);
+	drawString(display, 0, 0, FONT, WHITE, out);
 	display->flipDMABuffer();
 	digitalWrite(PICO_LED_PIN, frame % 2);
 	frame++;
-	delay(30);
+	// delay(1);
 }
