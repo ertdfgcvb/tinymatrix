@@ -81,10 +81,14 @@ void loop() {
 	// 	}
 	// }
 
-	char str[] = "ABCDEFGHIJKLMONPQRSTUVWXYZ(){}[]+-*/0123456789";
+	char str[64];
 
 	for (uint8_t j=0; j<4; j++) {
 		int x = -(sin(j * 0.3 + frame * 0.004) + 1) * 64;
+		for (uint8_t i = 0; i<64; i++) {
+			uint8_t offs = 0;
+			str[i] = 48 + (i + offs) % 64;
+		}
 		drawString(display, x, (FONT->Height + 1) * j, FONT, WHITE, str);
 	}
 
