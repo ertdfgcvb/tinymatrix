@@ -1,12 +1,12 @@
 # TinyMatrix
-CP210x USB to UART Bridge VCP Drivers - Silicon Labs
+CP210x USB to UART Bridge VCP Drivers - Silicon Labs  
 https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads
 
 
-# Part list
-- RGB LED matrix 32x64 P5 (P5 means that the LED pitch is 5mm)
-- USB-C cable or 5V power supply (3A minimum)
-- PicoDriver 
+# Part list 
+- RGB LED matrix 32x64 P5 (P5 means that the LED pitch is 5mm)  
+- USB-C cable or 5V power supply (3A minimum)  
+- PicoDriver   
 
 #### Commercial driver alternative
 - [Teensy 4.0 or 4.0 development board](https://www.pjrc.com/teensy/) 
