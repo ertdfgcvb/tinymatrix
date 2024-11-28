@@ -128,9 +128,9 @@ void displayGrid() {
 void loop() {
   displayGrid();
   updateGrid();
-  delay(100); // Delay between generations
+  delay(10); // Delay between generations
   seconds_counter++;
-  if (seconds_counter % 300 == 0)
+  if (seconds_counter % 3000 == 0)
   {
 	initializeGrid();
   }
